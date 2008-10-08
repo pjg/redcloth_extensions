@@ -1,0 +1,20 @@
+RedCloth Extensions
+===================
+
+Rails plugin with various RedCloth extensions:
+- new 'textilize' method for the String class
+- [:no_span_caps] option has been made the default
+- always add cellspacing="0" html attribute to the opening <table> tags
+- optional double low-9 opening quote ("\"I am.\", said Paul".textilize(:lang => "pl") => "<p>&#8222;I am.&#8221;, said Paul</p>")
+
+Requires RedCloth version 4.0+
+
+
+Examples
+========
+
+>> "My name is Paul".textilize
+=> "<p>My name is Paul</p>"
+
+
+Copyright (c) 2008 Paweł Gościcki, released under the MIT license
