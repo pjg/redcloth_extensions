@@ -33,6 +33,7 @@ end
 # new textilize method for String class
 String.class_eval do
   def textilize(opts = {})
-    RedCloth.new(self, [:no_span_caps]).send(opts[:lang] && opts[:lang] == 'pl' ? 'to_html_pl_formatter' : 'to_html')
+    # Polish formatter is a default formatter
+    RedCloth.new(self, [:no_span_caps]).send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
   end
 end
