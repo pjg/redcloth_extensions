@@ -7,8 +7,7 @@ module RedCloth::Formatters::HTML
   end
 end
 
-
-# custom RedCloth formatter for the Polish language
+# new custom RedCloth HTML formatter for the Polish language
 module RedCloth::Formatters::HTML::Polish
   include RedCloth::Formatters::HTML
 
@@ -18,8 +17,7 @@ module RedCloth::Formatters::HTML::Polish
   end
 end
 
-
-# optional usage of Polish html formatter
+# new 'to_html' method using the Polish html formatter (:to_html_pl_formatter)
 module RedCloth
   class TextileDoc < String
     def to_html_pl_formatter(*rules)
@@ -29,11 +27,10 @@ module RedCloth
   end
 end
 
-
 # new textilize method for String class
 String.class_eval do
   def textilize(opts = {})
-    # Polish formatter is a default formatter
+    # Polish formatter is the default formatter
     RedCloth.new(self, [:no_span_caps]).send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
   end
 end
