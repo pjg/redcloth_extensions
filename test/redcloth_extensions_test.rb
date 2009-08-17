@@ -1,7 +1,6 @@
-require 'test/unit'
 require File.dirname(__FILE__) + '/test_helper'
 
-class RedclothExtensionsTest < Test::Unit::TestCase
+class RedclothExtensionsTest < ActiveSupport::TestCase
 
   def test_textilize_method
     assert ''.respond_to?(:textilize)
