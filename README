@@ -15,7 +15,7 @@ Installation
 ============
 
 git submodule add git://github.com/pjg/redcloth_extensions.git vendor/plugins/redcloth_extensions
-git commit -m "Added redcloth_extensions plugin as a submodule."
+git commit -m "Add redcloth_extensions plugin as a submodule"
 
 
 Examples
