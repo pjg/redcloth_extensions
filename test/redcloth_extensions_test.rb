@@ -23,4 +23,20 @@ class RedclothExtensionsTest < ActiveSupport::TestCase
     assert_equal '"I am.", said Paul'.textilize(:lang => 'en'), '<p>&#8220;I am.&#8221;, said Paul</p>'
   end
 
+  def test_custom_picture_tag
+    # without link without caption at the beggining of text
+    input = "picture(centered). /pictures/2010-05/image.jpg|Description|false\n"
+    output = %(<div class="centered">\n<p><img src="/pictures/2010-05/image.jpg" alt="Description" /></p>\n</div>)
+    assert_equal output, input.textilize
+
+    # with link and caption
+    input = "Paragraph\n\npicture(alignright). /pictures/2010-05/image.png|Description|true|http://wp.pl/\n\n\nSome new paragraph."
+    output = %(<p>Paragraph</p>\n<div class="alignright">\n<p><a href="http://wp.pl/"><img src="/pictures/2010-05/image.png" alt="Description" /></a></p>\n<p class="caption">Description</p>\n</div>\n<p>Some new paragraph.</p>)
+    assert_equal output, input.textilize
+
+    # localized characters // short form
+    input = "picture(centered). łódź.jpg"
+    output = %(<div class="centered">\n<p><img src="łódź.jpg" alt="" /></p>\n</div>)
+    assert_equal output, input.textilize
+  end
 end

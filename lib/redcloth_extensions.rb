@@ -27,10 +27,36 @@ module RedCloth
   end
 end
 
+# custom picture tag
+module PictureTag
+  #
+  # picture(class). src|alt|caption?|link
+  #
+  #   class    - class for the outer <div> element
+  #   src      - <img> src attribute
+  #   alt      - <img> alt attribute (acts also as a caption)
+  #   caption? - whether to include <p class="caption"> element below the picture (true|false)
+  #   link     - image link
+  #
+  def picture(opts)
+    src, description, include_caption, link = opts[:text].split('|').map! {|str| str.strip}
+    html  = %Q(<div class="#{opts[:class]}">\n)
+    html << %Q(<p>)
+    html << %Q(<a href="#{link}">) if link
+    html << %Q(<img src="#{src}" alt="#{description}" />)
+    html << %Q(</a>) if link
+    html << %Q(</p>\n)
+    html << %Q(<p class="caption">#{description}</p>\n) if include_caption == 'true'
+    html << %Q(</div>\n)
+  end
+end
+
 # new textilize method for String class
 String.class_eval do
   def textilize(opts = {})
     # Polish formatter is the default formatter
-    RedCloth.new(self, [:no_span_caps]).send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
+    r = RedCloth.new(self, [:no_span_caps])
+    r.extend PictureTag
+    r.send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
   end
 end
