@@ -51,12 +51,32 @@ module PictureTag
   end
 end
 
+# custom video tag
+module VideoTag
+  #
+  # video. src|size
+  #
+  #   src      - path to the video
+  #   size     - size of the video (450x300, for example)
+  #
+  def video(opts)
+    src, size = opts[:text].split('|').map! {|str| str.strip}
+    width, height = size.split(/×|x|&#215;/)
+    html  = %Q(<div class="video">\n)
+    html << %Q(<object type="application/x-shockwave-flash" width="#{width}" height="#{height}" data="/videos/player.swf?file=#{src}">\n)
+    html << %Q(<param name="movie" value="/videos/player.swf?file=#{src}" />\n)
+    html << %Q(<param name="allowFullScreen" value="true" />\n)
+    html << %Q(</object>\n)
+    html << %Q(</div>\n)
+  end
+end
+
 # new textilize method for String class
 String.class_eval do
   def textilize(opts = {})
     # Polish formatter is the default formatter
     r = RedCloth.new(self, [:no_span_caps])
-    r.extend PictureTag
+    r.extend PictureTag, VideoTag
     r.send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
   end
 end

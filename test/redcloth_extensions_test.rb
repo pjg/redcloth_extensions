@@ -39,4 +39,10 @@ class RedclothExtensionsTest < ActiveSupport::TestCase
     output = %(<div class="centered">\n<p><img src="łódź.jpg" alt="" /></p>\n</div>)
     assert_equal output, input.textilize
   end
+
+  def test_custom_video_tag
+    input = "video. /videos/2010-07/hiphop-zapowiedz.flv|450x300"
+    output = %(<div class="video">\n<object type="application/x-shockwave-flash" width="450" height="300" data="/videos/player.swf?file=/videos/2010-07/hiphop-zapowiedz.flv">\n<param name="movie" value="/videos/player.swf?file=/videos/2010-07/hiphop-zapowiedz.flv" />\n<param name="allowFullScreen" value="true" />\n</object>\n</div>)
+    assert_equal output, input.textilize
+  end
 end
