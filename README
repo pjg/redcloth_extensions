@@ -5,6 +5,7 @@ Rails plugin with various RedCloth extensions:
 - new 'textilize' method for the String class
 - [:no_span_caps] option has been made the default
 - always add cellspacing="0" html attribute to the opening <table> tags
+- custom 'picture.' and 'video.' extensions to the textile syntax
 - new custom RedCloth HTML formatter for the Polish language (default) with the following differences from the default HTML formatter:
   - double low-9 opening quote: "\"I am.\", said Paul".textilize => "<p>&#8222;I am.&#8221;, said Paul</p>"
 
@@ -21,8 +22,41 @@ git commit -m "Add redcloth_extensions plugin as a submodule"
 Examples
 ========
 
+String.textilize method
+-----------------------
 >> "My name is Paul".textilize
 => "<p>My name is Paul</p>"
 
 
-Copyright (c) 2008-2009 Paweł Gościcki, released under the MIT license
+Custom 'picture.' textile tag
+-----------------------------
+picture(class). src|alt|caption?|link
+  class    - class for the outer <div> element
+  src      - <img> src attribute
+  alt      - <img> alt attribute (acts also as a caption)
+  caption? - whether to include <p class="caption"> element below the picture (true|false)
+  link     - image link
+
+>> "picture(alignright). /pictures/example.jpg|Some great description|true|http://example.org".textilize
+=> <div class="alignright">
+   <p><a href="http://example.org"><img src="/pictures/example.jpg" alt="Some great description" /></a></p>
+   <p class="caption">Some great description</p>
+   </div>
+
+
+Custom 'video.' textile tag
+---------------------------
+video. src|size
+  src  - path to the video
+  size - size of the video (450x300, for example)
+
+>> "video. /videos/example.flv|400x300".textilize
+=> <div class="video">
+   <object type="application/x-shockwave-flash" width="400" height="300" data="/videos/player.swf?file=/videos/example.flv">
+   <param name="movie" value="/videos/player.swf?file=/videos/example.flv" />
+   <param name="allowFullScreen" value="true" />
+   </object>
+   </div>
+
+
+Copyright (c) 2008-2010 Paweł Gościcki, released under the MIT license

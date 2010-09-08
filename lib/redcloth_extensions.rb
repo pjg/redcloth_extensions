@@ -56,8 +56,8 @@ module VideoTag
   #
   # video. src|size
   #
-  #   src      - path to the video
-  #   size     - size of the video (450x300, for example)
+  #   src  - path to the video
+  #   size - size of the video (450x300, for example)
   #
   def video(opts)
     src, size = opts[:text].split('|').map! {|str| str.strip}
