@@ -6,7 +6,7 @@ class RedclothExtensionsTest < ActiveSupport::TestCase
     assert ''.respond_to?(:textilize)
   end
 
-  def test_no_caps_span
+  def test_no_span_caps
     assert_equal 'My name is PAUL'.textilize, '<p>My name is PAUL</p>'
   end
 
@@ -16,11 +16,22 @@ class RedclothExtensionsTest < ActiveSupport::TestCase
 
   def test_different_formatters
     # Custom Polish HTML formatter (default)
+    I18n.locale = ''
     assert_equal '"I am.", said Paul'.textilize, '<p>&#8222;I am.&#8221;, said Paul</p>'
+
+    # Custom Polish HTML formatter (by setting the lang param)
     assert_equal '"I am.", said Paul'.textilize(:lang => 'pl'), '<p>&#8222;I am.&#8221;, said Paul</p>'
 
-    # Standard HTML formatter
+    # Custom Polish HTML formatter (by setting I18n.locale)
+    I18n.locale = 'pl'
+    assert_equal '"I am.", said Paul'.textilize, '<p>&#8222;I am.&#8221;, said Paul</p>'
+
+    # Standard HTML formatter (by setting the lang param)
     assert_equal '"I am.", said Paul'.textilize(:lang => 'en'), '<p>&#8220;I am.&#8221;, said Paul</p>'
+
+    # Standard HTML formatter (by setting I18n.locale)
+    I18n.locale = 'en'
+    assert_equal '"I am.", said Paul'.textilize, '<p>&#8220;I am.&#8221;, said Paul</p>'
   end
 
   def test_custom_picture_tag

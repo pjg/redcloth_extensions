@@ -74,9 +74,16 @@ end
 # new textilize method for String class
 String.class_eval do
   def textilize(opts = {})
-    # Polish formatter is the default formatter
+    # [:no_span_caps] is the default setting
     r = RedCloth.new(self, [:no_span_caps])
+
+    # extend RedCloth with picture/video tags
     r.extend PictureTag, VideoTag
-    r.send((opts[:lang].blank? or opts[:lang] == 'pl') ? 'to_html_pl_formatter' : 'to_html')
+
+    # make Polish HTML formatter the default HTML formatter
+    formatter = 'to_html_pl_formatter'
+    formatter = 'to_html' if opts[:lang].present? and opts[:lang].to_s != 'pl'
+    formatter = 'to_html' if I18n.locale.present? and I18n.locale.to_s != 'pl'
+    r.send(formatter)
   end
 end
