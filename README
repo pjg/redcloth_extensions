@@ -6,8 +6,8 @@ Rails plugin with various RedCloth extensions:
 - [:no_span_caps] option has been made the default
 - always add cellspacing="0" html attribute to the opening <table> tags
 - custom 'picture.' and 'video.' extensions to the textile syntax
-- new custom RedCloth HTML formatter for the Polish language (default) with the following differences from the default HTML formatter:
-  - double low-9 opening quote: "\"I am.\", said Paul".textilize => "<p>&#8222;I am.&#8221;, said Paul</p>"
+- new custom RedCloth HTML formatter for the Polish language (activated when I18n.locale is set to 'pl' or with the :lang option) with the following differences from the default HTML formatter:
+  * double low-9 opening quote: "\"I am.\", said Paul".textilize => "<p>&#8222;I am.&#8221;, said Paul</p>"
 
 Requires RedCloth version 4.0+
 
@@ -57,6 +57,12 @@ video. src|size
    <param name="allowFullScreen" value="true" />
    </object>
    </div>
+
+
+Choosing the HTML formatter
+---------------------------
+"I am.".textilize(:lang => 'pl')
+=> Will textilize using the Polish language HTML formatter. When you omit the :lang param, it will automatically choose the Polish language HTML formatter when the I18n.locale is set to 'pl'.
 
 
 Copyright (c) 2008-2010 Paweł Gościcki, released under the MIT license
